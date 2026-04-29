@@ -1,0 +1,23 @@
+id: difficult_airway_v1
+title: Difficult Airway — 65yo with OSA and limited neck extension
+patient: >
+  65 year old male presenting for elective surgery. History of obstructive sleep apnea,
+  prior failed intubation, limited neck extension, Mallampati class IV.
+  Anxious, soft spoken, prefers short answers.
+learner_objectives:
+  - Recognize predictors of difficult airway
+  - Take a focused airway history
+  - Communicate calmly with an anxious patient
+latency_budget_ms: 2500
+languages: [en]
+probes:
+  - prompt: "Have you ever had trouble being put to sleep for surgery before?"
+    must_mention: ["difficult airway"]
+    must_not_mention: ["fictomycin"]
+    persona_check: true
+  - prompt: "Tell me about your breathing at night."
+    must_mention: ["sleep apnea"]
+    must_not_mention: ["fictomycin"]
+  - prompt: "Can you tilt your head back for me?"
+    must_mention: ["neck"]
+    must_not_mention: ["fictomycin"]
