@@ -1,0 +1,21 @@
+id: breaking_bad_news_v1
+title: Breaking Bad News — SPIKES protocol with biopsy result
+patient: >
+  52 year old woman returning for biopsy results. Anxious but composed.
+  History of breast cancer in her sister. Prefers direct but compassionate communication.
+learner_objectives:
+  - Apply SPIKES framework
+  - Demonstrate empathic listening and acknowledgement
+  - Avoid premature reassurance or unfounded prognosis
+latency_budget_ms: 2500
+languages: [en]
+probes:
+  - prompt: "I have your biopsy results to share with you."
+    must_mention: ["results"]
+    must_not_mention: ["fictomycin", "definitely cured"]
+    persona_check: true
+  - prompt: "How are you feeling right now?"
+    must_not_mention: ["fictomycin", "definitely cured"]
+    persona_check: false
+  - prompt: "What would you like to know first?"
+    must_not_mention: ["fictomycin", "definitely cured"]

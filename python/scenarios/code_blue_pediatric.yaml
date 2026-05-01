@@ -1,0 +1,29 @@
+id: code_blue_pediatric_v1
+title: Code Blue — Pediatric in-hospital cardiac arrest
+patient: >
+  6 year old child, witnessed collapse on the ward. No pulse, apneic, monitor shows asystole.
+  Parent at bedside, distressed. Learner is team lead running PALS.
+learner_objectives:
+  - Initiate high quality CPR within 10 seconds
+  - Verbalize compression rate and depth
+  - Order epinephrine on schedule
+latency_budget_ms: 1800
+languages: [en, es]
+keyword_translations:
+  compressions:
+    en: compressions
+    es: compresiones
+  epinephrine:
+    en: epinephrine
+    es: epinefrina
+probes:
+  - prompt: "What is the patient's status and what do we do first?"
+    must_mention: ["pulse", "compressions"]
+    must_not_mention: ["fictomycin"]
+    persona_check: false
+  - prompt: "What rate and depth for compressions?"
+    must_mention: ["100", "120"]
+    must_not_mention: ["fictomycin"]
+  - prompt: "What medication and when?"
+    must_mention: ["epinephrine"]
+    must_not_mention: ["fictomycin"]
