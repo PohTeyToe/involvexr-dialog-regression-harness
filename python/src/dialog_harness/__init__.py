@@ -9,6 +9,10 @@ from dialog_harness.consensus import (
     consensus_decorator,
     latency_consensus,
 )
+
+# Backwards-compatible alias — `consensus_assertion` reads naturally in
+# documentation and matches the verb-phrase pattern of the assertion library.
+consensus_assertion = consensus
 from dialog_harness.coverage import CoverageReport, analyze_coverage
 from dialog_harness.report import render_report
 
@@ -23,6 +27,7 @@ __all__ = [
     "assertions",
     "render_report",
     "consensus",
+    "consensus_assertion",
     "consensus_decorator",
     "latency_consensus",
     "ConsensusOutcome",
