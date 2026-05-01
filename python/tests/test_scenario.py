@@ -7,7 +7,7 @@ import yaml
 
 from dialog_harness.scenario import Scenario, load_scenario
 
-SCENARIO_DIR = Path(__file__).parent.parent / "scenarios"
+SCENARIO_DIR = Path(__file__).parent.parent.parent / "scenarios"
 
 
 @pytest.mark.parametrize(

@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import hashlib
-import os
 import random
-import time
 from dataclasses import dataclass, field
 from typing import Protocol
 
@@ -85,24 +83,4 @@ class MockLLMClient:
         return "I am not sure I understand. Could you say that another way?"
 
 
-@dataclass
-class RealLLMClient:
-    """Plumbing-only stub for a real provider. Do not call in CI."""
-
-    provider: str = "anthropic"
-    model: str = "claude-3-5-sonnet"
-
-    def complete(self, prompt: str, *, language: str = "en") -> tuple[str, int]:
-        api_key = os.getenv(
-            "ANTHROPIC_API_KEY" if self.provider == "anthropic" else "OPENAI_API_KEY"
-        )
-        if not api_key:
-            raise RuntimeError(
-                f"{self.provider} API key not set; use MockLLMClient in CI."
-            )
-        start = time.perf_counter()
-        # Real implementation would call the SDK here.
-        raise NotImplementedError(
-            "RealLLMClient is a stub. Wire up provider SDK before enabling."
-        )
-        latency_ms = int((time.perf_counter() - start) * 1000)  # noqa: F841
+# Note: RealLLMClient lives in dialog_harness.real_llm (Anthropic-backed).
