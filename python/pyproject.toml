@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "dialog-harness"
 version = "0.2.0"
 description = "Sketch of a regression harness for non-deterministic LLM-driven patient dialog in healthcare simulation."
-readme = "../README.md"
+readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "Abdallah Safi", email = "abdullahsf2001@gmail.com" }]
 license = { text = "MIT" }
