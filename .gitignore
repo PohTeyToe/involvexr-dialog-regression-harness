@@ -19,7 +19,8 @@ htmlcov/
 .DS_Store
 .idea/
 .vscode/
-reports/*.html
-!reports/.gitkeep
+reports/
+**/reports/*.html
+!**/reports/.gitkeep
 *.log
 .env
