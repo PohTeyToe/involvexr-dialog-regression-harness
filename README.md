@@ -20,14 +20,19 @@ voting for flake control, and a coverage view tied to learner objectives.
 
 ## Live demo
 
-The Next.js front-end and FastAPI back-end are deployment-ready (see
-[`DEPLOY.md`](DEPLOY.md) for the one-command deploys). Tokens for Vercel
-and Render need to be exported in the local shell first; the build is
-otherwise green.
+Both halves of the stack are live:
 
-The front-end is fully usable offline against deterministic mock data —
-opening it without a backend still shows a complete walkthrough of
-scenarios, live-run streaming, reports, and the architecture diagram.
+| Surface | URL |
+|-|-|
+| Front-end (Vercel) | https://involvexr-dialog-harness.vercel.app |
+| API (Railway) | https://involvexr-dialog-regression-harness-production.up.railway.app |
+
+The front-end streams runs from the API over SSE; `/api/scenarios` on the
+API returns the three YAML scenarios in this repo. The front-end is also
+fully usable offline against deterministic mock data — opening it without
+a backend still shows a complete walkthrough of scenarios, live-run
+streaming, reports, and the architecture diagram. See
+[`DEPLOY.md`](DEPLOY.md) for the one-command deploys.
 
 ## Repository tour
 
