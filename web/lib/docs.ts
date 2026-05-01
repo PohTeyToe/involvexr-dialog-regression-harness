@@ -1,7 +1,38 @@
-// Embedded docs source so the page renders even before /docs/ is populated
-// by Phase 2C. When that lands, swap to fs.readFile in a Server Component.
+// Docs content. The three "design-note" docs (decisions, csharp_equivalents,
+// specflow_mapping) are embedded inline because they were authored for the
+// web surface and don't exist as standalone markdown files. The longer
+// reference docs (architecture, testing_philosophy, v0_5_roadmap, glossary,
+// integration_with_lumeto_stack) are read from the repo's /docs folder at
+// build time so they stay in sync with the canonical source.
+
+import fs from "node:fs";
+import path from "node:path";
 
 export type Doc = { title: string; subtitle?: string; body: string };
+
+// Resolve the repo-root /docs directory from web/ at build time.
+// process.cwd() during `next build` is the web/ directory.
+function readRepoDoc(filename: string): string {
+  const candidates = [
+    path.join(process.cwd(), "content", "docs", filename),
+    path.join(process.cwd(), "..", "docs", filename),
+    path.join(process.cwd(), "docs", filename),
+  ];
+  for (const p of candidates) {
+    try {
+      return fs.readFileSync(p, "utf8");
+    } catch {
+      // try next
+    }
+  }
+  return `# ${filename}\n\nDocument source not found at build time.`;
+}
+
+const ARCHITECTURE_MD = readRepoDoc("architecture.md");
+const TESTING_PHILOSOPHY_MD = readRepoDoc("testing_philosophy.md");
+const V0_5_ROADMAP_MD = readRepoDoc("v0_5_roadmap.md");
+const GLOSSARY_MD = readRepoDoc("glossary.md");
+const INTEGRATION_MD = readRepoDoc("integration_with_lumeto_stack.md");
 
 export const DOCS: Record<string, Doc> = {
   decisions: {
@@ -144,5 +175,30 @@ And no probe mentions a fabricated medication
 That keeps stakeholder-readable tests on the SpecFlow side while the
 heavy-lifting assertions live in the harness.
 `,
+  },
+  architecture: {
+    title: "Architecture",
+    subtitle: "How the harness sits next to the InvolveXR stack.",
+    body: ARCHITECTURE_MD,
+  },
+  testing_philosophy: {
+    title: "Testing philosophy",
+    subtitle: "Why assertion-based tests, not snapshot tests, for LLM dialog.",
+    body: TESTING_PHILOSOPHY_MD,
+  },
+  integration_with_lumeto_stack: {
+    title: "Integration with the Lumeto stack",
+    subtitle: "Two ways to drop the harness into a Lumeto deployment.",
+    body: INTEGRATION_MD,
+  },
+  v0_5_roadmap: {
+    title: "v0.5 roadmap",
+    subtitle: "What's missing before this is production-ready.",
+    body: V0_5_ROADMAP_MD,
+  },
+  glossary: {
+    title: "Glossary",
+    subtitle: "Terms used throughout the docs, for non-engineering readers.",
+    body: GLOSSARY_MD,
   },
 };
