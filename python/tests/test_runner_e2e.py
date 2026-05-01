@@ -7,7 +7,7 @@ from dialog_harness.report import render_report
 from dialog_harness.runner import ProbeRunner
 from dialog_harness.scenario import load_scenario
 
-SCENARIO_DIR = Path(__file__).parent.parent / "scenarios"
+SCENARIO_DIR = Path(__file__).parent.parent.parent / "scenarios"
 
 
 def test_difficult_airway_runs_and_passes() -> None:

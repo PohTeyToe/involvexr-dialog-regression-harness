@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dialog-harness"
+version = "0.2.0"
+description = "Sketch of a regression harness for non-deterministic LLM-driven patient dialog in healthcare simulation."
+readme = "../README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Abdallah Safi", email = "abdullahsf2001@gmail.com" }]
+license = { text = "MIT" }
+dependencies = [
+    "pydantic>=2.6,<3",
+    "pyyaml>=6.0,<7",
+    "scikit-learn>=1.4,<2",
+    "jinja2>=3.1,<4",
+    "anthropic>=0.39,<1",
+    "fastapi>=0.110,<1",
+    "uvicorn[standard]>=0.27,<1",
+    "sse-starlette>=2.0,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0,<9",
+    "pytest-cov>=5.0,<6",
+    "httpx>=0.27,<1",
+]
+embeddings = [
+    "sentence-transformers>=2.7,<5",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dialog_harness", "src/dialog_harness_api"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "live: tests that hit the live Anthropic API (skipped by default; set RUN_LIVE_LLM_TESTS=1 to run)",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
