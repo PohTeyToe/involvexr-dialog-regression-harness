@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-success-50: oklch(0.97 0.03 150);
+  --color-success-500: oklch(0.62 0.13 150);
+  --color-success-600: oklch(0.55 0.13 150);
+  --color-warning-500: oklch(0.74 0.14 75);
+  --color-error-500: oklch(0.6 0.18 25);
+}
+
+:root {
+  --background: oklch(0.99 0.002 250);
+  --foreground: oklch(0.18 0.005 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.005 250);
+  --muted: oklch(0.96 0.003 250);
+  --muted-foreground: oklch(0.5 0.005 250);
+  --border: oklch(0.92 0.004 250);
+  --input: oklch(0.94 0.004 250);
+  --primary: oklch(0.55 0.15 250);
+  --primary-foreground: oklch(0.99 0 0);
+  --accent: oklch(0.96 0.005 250);
+  --accent-foreground: oklch(0.18 0.005 250);
+  --ring: oklch(0.55 0.15 250);
+  --success: oklch(0.55 0.13 150);
+  --warning: oklch(0.74 0.14 75);
+  --error: oklch(0.6 0.18 25);
+}
+
+.dark {
+  --background: oklch(0.14 0.005 250);
+  --foreground: oklch(0.96 0.003 250);
+  --card: oklch(0.17 0.006 250);
+  --card-foreground: oklch(0.96 0.003 250);
+  --muted: oklch(0.21 0.006 250);
+  --muted-foreground: oklch(0.65 0.005 250);
+  --border: oklch(0.24 0.006 250);
+  --input: oklch(0.22 0.006 250);
+  --primary: oklch(0.7 0.15 250);
+  --primary-foreground: oklch(0.14 0.005 250);
+  --accent: oklch(0.21 0.006 250);
+  --accent-foreground: oklch(0.96 0.003 250);
+  --ring: oklch(0.7 0.15 250);
+  --success: oklch(0.7 0.14 150);
+  --warning: oklch(0.78 0.14 75);
+  --error: oklch(0.7 0.17 25);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide scrollbar styling polish */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Animations */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.animate-pulse-soft {
+  animation: pulse-soft 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes flash-green {
+  0% { background-color: color-mix(in oklch, var(--success) 25%, transparent); }
+  100% { background-color: transparent; }
+}
+.flash-pass { animation: flash-green 1.2s ease-out; }
+
+@keyframes flash-red {
+  0% { background-color: color-mix(in oklch, var(--error) 25%, transparent); }
+  100% { background-color: transparent; }
+}
+.flash-fail { animation: flash-red 1.2s ease-out; }
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fade-in-up 0.25s ease-out forwards; }
+
+/* Selection */
+::selection {
+  background: color-mix(in oklch, var(--primary) 25%, transparent);
+}
+
+/* Focus rings */
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Markdown body styling -- minimal, calm */
+.markdown-body {
+  color: var(--foreground);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.markdown-body h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+.markdown-body h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+.markdown-body p {
+  color: var(--muted-foreground);
+  margin-bottom: 0.9rem;
+}
+.markdown-body ul, .markdown-body ol {
+  margin-left: 1.25rem;
+  margin-bottom: 0.9rem;
+  color: var(--muted-foreground);
+}
+.markdown-body li { margin-bottom: 0.25rem; }
+.markdown-body code {
+  font-family: var(--font-geist-mono);
+  font-size: 0.85em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background: var(--muted);
+  color: var(--foreground);
+}
+.markdown-body pre {
+  font-family: var(--font-geist-mono);
+  font-size: 0.8rem;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--muted);
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+.markdown-body pre code {
+  padding: 0;
+  background: transparent;
+}
+.markdown-body table {
+  font-size: 0.85rem;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.markdown-body th, .markdown-body td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.7rem;
+  text-align: left;
+}
+.markdown-body th {
+  background: var(--muted);
+  font-weight: 600;
+}
+.markdown-body strong { color: var(--foreground); }
+.markdown-body a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Subtle grid pattern for hero */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, var(--border) 60%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--border) 60%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 70%);
+}
