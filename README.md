@@ -20,23 +20,24 @@ voting for flake control, and a coverage view tied to learner objectives.
 
 ## Live demo
 
-Front-end pending Phase 2:
-[https://involvexr-dialog-harness.vercel.app](https://involvexr-dialog-harness.vercel.app)
+The Next.js front-end and FastAPI back-end are deployment-ready (see
+[`DEPLOY.md`](DEPLOY.md) for the one-command deploys). Tokens for Vercel
+and Render need to be exported in the local shell first; the build is
+otherwise green.
 
-The FastAPI server in [`python/src/dialog_harness_api/`](python/src/dialog_harness_api/)
-is wired for Railway deployment via [`railway.json`](railway.json) at the
-repo root — `railway up` from a logged-in CLI is the only step. The
-public URL will be added here once provisioned.
+The front-end is fully usable offline against deterministic mock data —
+opening it without a backend still shows a complete walkthrough of
+scenarios, live-run streaming, reports, and the architecture diagram.
 
 ## Repository tour
 
 | Folder | What lives there |
 |-|-|
-| [`python/`](python/) | Harness core: scenario loader, probe runner, assertions (semantic + latency + cross-language + consensus), HTML report renderer, FastAPI server. This is where the real logic is. |
-| [`scenarios/`](scenarios/) | YAML scenarios shared by every language target. Three sample scenarios today: difficult airway pre-op, pediatric code blue (bilingual), and breaking bad news. |
-| [`web/`](web/) | Phase 2: Next.js educator UI that streams live regression runs from the FastAPI server over Server-Sent Events, renders coverage tables, and lets faculty author probes without touching code. |
-| [`dotnet/`](dotnet/) | Phase 2: thin C#/ASP.NET wrapper so a Lumeto-style backend can shell out to the harness from existing SpecFlow or xUnit suites without rewriting assertions twice. |
-| [`docs/`](docs/) | Phase 2: the design documents the code intentionally does not duplicate — SpecFlow / Gherkin mapping, ACF integration sketch, flake budget, sketch-to-production gap analysis. |
+| [`python/`](python/) | Harness core: scenario loader, probe runner, assertions (semantic + latency + cross-language + consensus), HTML report renderer, FastAPI server. This is where the real logic is. **43 passing tests, CI green on Python 3.11/3.12.** |
+| [`scenarios/`](scenarios/) | YAML scenarios shared by every language target. Three sample scenarios today: difficult airway, pediatric code blue, and SPIKES breaking bad news. |
+| [`web/`](web/) | Next.js 15 + Tailwind v4 + shadcn-style UI. 9 routes, 17 components, dark-mode default. Streams live regression runs from the FastAPI server over Server-Sent Events. Falls back to mock data when the backend is unreachable so the UI is always demo-ready. |
+| [`dotnet/`](dotnet/) | ASP.NET Core wrapper using Lumeto's actual test stack: xUnit + Moq + WebApplicationFactory + SpecFlow + FluentValidation. **53 passing tests** across Core (36 unit), Api (14 integration via WebApplicationFactory), and Specs (3 SpecFlow scenarios). 4 source projects, 3 test projects. |
+| [`docs/`](docs/) | 13 design documents and 5 ADRs covering architecture (with Mermaid diagrams), C# equivalents for each Python assertion, SpecFlow mapping for the YAML scenarios, integration with Lumeto's stack, testing philosophy, v0.5 production roadmap, and a glossary for non-engineering readers. **~1880 lines.** |
 
 ## Quickstart
 
