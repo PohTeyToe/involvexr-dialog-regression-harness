@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from dialog_harness import embeddings
 
 
 @dataclass
@@ -42,16 +41,23 @@ def assert_does_not_mention(response: str, banned: list[str]) -> AssertionResult
 def assert_stays_in_character(
     response: str, persona: str, threshold: float = 0.05
 ) -> AssertionResult:
-    """TF-IDF cosine between response and persona description above threshold."""
+    """Cosine similarity between response and persona, above threshold.
+
+    Uses sentence-transformers embeddings by default; falls back to TF-IDF
+    cosine when the embedding model is unavailable (no model cache, no
+    network, or DIALOG_HARNESS_DISABLE_EMBEDDINGS=1). The default threshold
+    is intentionally low because TF-IDF persona similarity scores are tiny
+    on short responses; production should retune for the embeddings backend
+    (e.g. 0.30-0.40 with all-MiniLM-L6-v2).
+    """
     if not response.strip() or not persona.strip():
         return AssertionResult("stays_in_character", False, "empty input")
-    vec = TfidfVectorizer().fit([persona, response])
-    mat = vec.transform([persona, response])
-    score = float(cosine_similarity(mat[0], mat[1])[0][0])
+    score = embeddings.similarity(persona, response)
+    backend = embeddings.backend_name()
     return AssertionResult(
         name="stays_in_character",
         passed=score >= threshold,
-        detail=f"similarity={score:.3f} threshold={threshold}",
+        detail=f"similarity={score:.3f} threshold={threshold} backend={backend}",
     )
 
 
