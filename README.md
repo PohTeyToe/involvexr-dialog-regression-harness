@@ -20,9 +20,13 @@ voting for flake control, and a coverage view tied to learner objectives.
 
 ## Live demo
 
+Front-end pending Phase 2:
 [https://involvexr-dialog-harness.vercel.app](https://involvexr-dialog-harness.vercel.app)
-(front-end pending Phase 2; the FastAPI server is already deployed —
-see [`python/`](python/README.md) for the URL once Railway provisions it.)
+
+The FastAPI server in [`python/src/dialog_harness_api/`](python/src/dialog_harness_api/)
+is wired for Railway deployment via [`railway.json`](railway.json) at the
+repo root — `railway up` from a logged-in CLI is the only step. The
+public URL will be added here once provisioned.
 
 ## Repository tour
 
