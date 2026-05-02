@@ -38,6 +38,21 @@ class MockLLMClient:
     def _fallback(self, prompt: str, language: str) -> str:
         p = prompt.lower()
         es = language == "es"
+        # SPIKES / breaking-bad-news anchors run BEFORE the code-blue 'first'
+        # branch so "What would you like to know first?" is not swallowed by
+        # the bare 'first' substring check below.
+        if "biopsy" in p or "results" in p:
+            return (
+                "I have your biopsy results to discuss. Take your time. "
+                "I want to walk through the results carefully with you."
+            )
+        if "feeling" in p or "right now" in p:
+            return "I can see this is a lot. I'm here. Take a breath."
+        if "know first" in p or "what would you like" in p:
+            return (
+                "Whatever you'd like to start with is fine. Some people want the "
+                "headline first, others want context. I will follow your lead."
+            )
         if "asleep" in p or "put to sleep" in p or "anesthesia" in p:
             return (
                 "Yes, last time it was hard. The doctors said I have a difficult "
@@ -51,7 +66,7 @@ class MockLLMClient:
             )
         if "tilt" in p or "neck" in p or "extension" in p:
             return "My neck is stiff. I cannot tilt it back very far."
-        if "status" in p or "do we do first" in p or "first" in p:
+        if "status" in p or "do we do first" in p or "what do we do" in p:
             base = (
                 "The child has no pulse. Begin compressions immediately and call "
                 "for the code team."
@@ -66,18 +81,6 @@ class MockLLMClient:
         if "medication" in p or "drug" in p or "epi" in p:
             base = "Epinephrine 0.01 mg per kg IV every 3 to 5 minutes."
             return "Epinefrina 0.01 mg por kg IV cada 3 a 5 minutos." if es else base
-        if "biopsy" in p or "results" in p:
-            return (
-                "I have your biopsy results to discuss. Take your time. "
-                "I want to walk through the results carefully with you."
-            )
-        if "feeling" in p or "right now" in p:
-            return "I can see this is a lot. I'm here. Take a breath."
-        if "know first" in p or "what would you like" in p:
-            return (
-                "Whatever you'd like to start with is fine. Some people want the "
-                "headline first, others want context. I will follow your lead."
-            )
         if "name" in p or "who are you" in p:
             return f"My name is {self.persona[:40]}."
         return "I am not sure I understand. Could you say that another way?"

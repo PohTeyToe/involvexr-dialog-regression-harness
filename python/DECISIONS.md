@@ -207,3 +207,34 @@ recordings of actual patient-agent responses (anonymized or paraphrased)
 so the offline test surface matches the live failure distribution.
 Until then, the `--live` flag and `RUN_LIVE_LLM_TESTS=1` are the honest
 mode.
+
+## 11. Coverage analyzer is keyword-biased toward content objectives
+
+**I assumed** keyword-overlap-with-semantic-similarity-fallback is a
+reasonable cheap signal for "which learner objectives does this scenario
+exercise." The analyzer tokenizes objective text and probe text
+(`prompt + must_mention`), drops stopwords, intersects, and falls back
+to TF-IDF cosine similarity at threshold 0.30 if the keyword pass
+misses.
+
+**This might be wrong because** the signal is systematically biased
+toward objectives whose vocabulary appears in patient responses (e.g.
+"Recognize predictors of difficult airway" — "difficult" and "airway"
+sit in the must_mention) and away from objectives about *learner*
+behavior or protocol-name vocabulary (e.g. "Apply SPIKES framework" —
+the patient never says "SPIKES"). The breaking-bad-news scenario
+surfaces this clearly: the SPIKES framework objective is uncovered
+because the patient response anchors are "results", "here", "lead",
+which share no tokens with "spikes" or "framework". TF-IDF fallback
+helps a little but not enough at 0.30 over short snippets.
+
+**With access to Lumeto's actual systems I would** add a second
+analyzer keyed off faculty-authored rubrics rather than free-text
+objectives — every rubric criterion gets an explicit
+"observable-in-response" anchor curated by the educator who wrote it.
+The keyword analyzer becomes the cheap CI gate; the rubric analyzer
+becomes the report-card-grade signal. Until then, expect the SPIKES /
+empathic-listening / informed-consent style objectives to score lower
+than they should under this metric, and read coverage as "how much of
+the content surface this scenario exercises" not "how complete is the
+protocol coverage."

@@ -4,9 +4,9 @@ patient: >
   52 year old woman returning for biopsy results. Anxious but composed.
   History of breast cancer in her sister. Prefers direct but compassionate communication.
 learner_objectives:
-  - Apply SPIKES framework
-  - Demonstrate empathic listening and acknowledgement
-  - Avoid premature reassurance or unfounded prognosis
+  - Open the conversation and share the biopsy results clearly
+  - Stay present and acknowledge how the patient is feeling right now
+  - Invite the patient to lead what they want to know first
 latency_budget_ms: 2500
 languages: [en]
 probes:
@@ -15,7 +15,9 @@ probes:
     must_not_mention: ["fictomycin", "definitely cured"]
     persona_check: true
   - prompt: "How are you feeling right now?"
+    must_mention: ["here"]
     must_not_mention: ["fictomycin", "definitely cured"]
     persona_check: false
   - prompt: "What would you like to know first?"
+    must_mention: ["lead"]
     must_not_mention: ["fictomycin", "definitely cured"]
